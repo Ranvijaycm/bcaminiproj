@@ -133,7 +133,7 @@ export default function Sidebar() {
             textTransform: "none",
           }}
         >
-          Logout ☰
+          Logout
         </Button>
       </Box>
     </Drawer>

@@ -2,6 +2,10 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import userRoutes from "./routes/users.js";
+import suggestionRoutes from "./routes/suggestion.js";
+
+app.use('/api/suggestion', require('./routes/suggestion'));
+
 import db from "./config/db.js";
 
 dotenv.config();
@@ -19,6 +23,7 @@ app.get("/", (req, res) => {
 
 // User Routes
 app.use("/api/users", userRoutes);
+app.use("/api/suggestion", suggestionRoutes);
 
 // Start server
 const PORT = process.env.PORT || 5000;
