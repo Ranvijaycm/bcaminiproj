@@ -1,8 +1,9 @@
 import express from "express";
 import { registerUser, loginUser, fetchAllUsers } from "../controllers/userController.js";
-console.log("Users route file LOADED"); //temporary test
 
 const router = express.Router();
+
+console.log("Users route file LOADED");
 
 // REGISTER
 router.post("/register", registerUser);
@@ -12,12 +13,5 @@ router.post("/login", loginUser);
 
 // GET ALL USERS
 router.get("/", fetchAllUsers);
-
-router.post("/register", (req, res) => {
-  console.log("🔥 REGISTER ENDPOINT INSIDE ROUTER REACHED");
-  res.send("Router file reached but controller not connected");
-});
-
-
 
 export default router;

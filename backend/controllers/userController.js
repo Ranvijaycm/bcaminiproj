@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { createUser, findUserByEmail, getAllUsers } from "../models/userModel.js";
 
-const JWT_SECRET = "MYNEST_SECRET_KEY"; // You can move this to .env later
+const JWT_SECRET = process.env.JWT_SECRET || "MYNEST_SECRET_KEY";
 
 // ==============================
 // REGISTER USER
@@ -45,8 +45,6 @@ export const registerUser = (req, res) => {
     });
 };
 
-
-
 // ==============================
 // LOGIN USER
 // ==============================
@@ -79,7 +77,7 @@ export const loginUser = (req, res) => {
                 message: "Login successful",
                 token,
                 user: {
-                    id: user.user_id,       // FIXED
+                    id: user.user_id,
                     name: user.name,
                     email: user.email,
                     role: user.role
@@ -88,8 +86,6 @@ export const loginUser = (req, res) => {
         });
     });
 };
-
-
 
 // ==============================
 // GET ALL USERS

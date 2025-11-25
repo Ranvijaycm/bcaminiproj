@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 import "./Login.css";
 
 function Login() {
@@ -7,19 +8,42 @@ function Login() {
     password: "",
   });
 
+  const [message, setMessage] = useState("");
+
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    console.log("Login Data:", form);
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/users/login",
+        form
+      );
+
+      setMessage(response.data.message);
+      console.log("LOGIN SUCCESS:", response.data);
+
+      // Save token in localStorage
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("userName", response.data.user.name);
+
+      // Redirect after login
+      window.location.href = "/";
+    } catch (error) {
+      console.log(error);
+      setMessage(error.response?.data?.message || "Login failed");
+    }
   }
 
   return (
     <div className="login-container">
       <div className="login-box">
         <h2>Welcome Back</h2>
+
+        {message && <p style={{ color: "red" }}>{message}</p>}
 
         <form onSubmit={handleSubmit}>
           <input

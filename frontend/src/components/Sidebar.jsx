@@ -7,31 +7,29 @@ const drawerWidth = 200;
 export default function Sidebar() {
   const navigate = useNavigate();
 
-  // TEMP — replace with backend user data later
-  const username = "Ranvijay";
+  // TEMP username — later replace with backend data
+  const username = "Student User";
 
-  const [showTollFree, setShowTollFree] = useState(false);
-
+  const [showToll, setShowToll] = useState(false);
   const [dateTime, setDateTime] = useState({ date: "", time: "" });
 
-  // Live Date & Time
+  // Live date + time
   useEffect(() => {
     const interval = setInterval(() => {
       const now = new Date();
-      const date = now.toLocaleDateString("en-IN");
-      const time = now.toLocaleTimeString("en-IN", {
-        hour: "2-digit",
-        minute: "2-digit",
+      setDateTime({
+        date: now.toLocaleDateString("en-IN"),
+        time: now.toLocaleTimeString("en-IN", {
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
       });
-      setDateTime({ date, time });
     }, 1000);
 
     return () => clearInterval(interval);
   }, []);
 
-  // Logout function
   function handleLogout() {
-    // later: clear tokens, cookies, backend session
     navigate("/login");
   }
 
@@ -44,20 +42,17 @@ export default function Sidebar() {
         [`& .MuiDrawer-paper`]: {
           width: drawerWidth,
           boxSizing: "border-box",
-          paddingTop: "40px",
+          paddingTop: "70px",
           paddingLeft: "12px",
-          backgroundColor: "#fafafa",
         },
       }}
     >
       {/* TOP SECTION */}
       <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
-        {/* DYNAMIC USERNAME */}
         <Typography sx={{ fontSize: "18px", fontWeight: 600 }}>
           {username}
         </Typography>
 
-        {/* HELP */}
         <Typography
           component={Link}
           to="/help"
@@ -71,31 +66,19 @@ export default function Sidebar() {
           HELP
         </Typography>
 
-        {/* TOLL FREE */}
         <Typography
-          onClick={() => setShowTollFree(!showTollFree)}
-          sx={{
-            fontSize: "16px",
-            cursor: "pointer",
-          }}
+          sx={{ fontSize: "16px", cursor: "pointer" }}
+          onClick={() => setShowToll(!showToll)}
         >
           TOLLFREE
         </Typography>
 
-        {/* TOLL FREE NUMBER */}
-        {showTollFree && (
-          <Typography
-            sx={{
-              fontSize: "14px",
-              opacity: 0.8,
-              paddingLeft: "10px",
-            }}
-          >
+        {showToll && (
+          <Typography sx={{ fontSize: "14px", paddingLeft: "10px" }}>
             1234567890
           </Typography>
         )}
 
-        {/* SUGGESTIONS */}
         <Typography
           component={Link}
           to="/suggestions"
@@ -110,30 +93,25 @@ export default function Sidebar() {
         </Typography>
       </Box>
 
-      {/* SPACE FLEX */}
+      {/* SPACER */}
       <Box sx={{ flexGrow: 1 }} />
 
-      {/* BOTTOM SECTION: DATE + TIME + LOGOUT */}
-      <Box
-        sx={{
-          paddingBottom: "20px",
-          textAlign: "center",
-          width: "100%",
-        }}
-      >
+      {/* BOTTOM SECTION */}
+      <Box sx={{ textAlign: "center", paddingBottom: "20px" }}>
         <Typography sx={{ fontSize: "15px" }}>{dateTime.date}</Typography>
-        <Typography sx={{ fontSize: "15px", mb: 2 }}>{dateTime.time}</Typography>
+        <Typography sx={{ fontSize: "15px", marginBottom: "12px" }}>
+          {dateTime.time}
+        </Typography>
 
         <Button
-          onClick={handleLogout}
-          variant="text"
           sx={{
+            textTransform: "none",
             color: "black",
             fontSize: "15px",
-            textTransform: "none",
           }}
+          onClick={handleLogout}
         >
-          Logout
+          Logout ☰
         </Button>
       </Box>
     </Drawer>

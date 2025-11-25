@@ -9,6 +9,7 @@ function Home() {
       sx={{
         paddingTop: "80px", // so text doesn't hide behind navbar
         width: "100%",
+        paddingLeft: "200px",
         textAlign: "center",
       }}
     >

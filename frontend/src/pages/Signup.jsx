@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 import "./Signup.css";
 
 function Signup() {
@@ -6,21 +7,57 @@ function Signup() {
     name: "",
     email: "",
     password: "",
+    phone: "",
+    address: ""
   });
+
+  const [message, setMessage] = useState("");
 
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    console.log("Signup Data:", form);
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/users/register",
+        form
+      );
+
+      setMessage(response.data.message);
+      console.log("SIGNUP SUCCESS:", response.data);
+
+      // Redirect after signup
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 1200);
+
+    } catch (error) {
+      console.log(error);
+      setMessage(error.response?.data?.message || "Signup failed");
+    }
   }
 
   return (
     <div className="signup-container">
       <div className="signup-box">
-        <h2>Create Account</h2>
+        <h2>Create Your Account</h2>
+
+        {message && (
+  <p
+    style={{
+      color: message.toLowerCase().includes("success") ? "green" : "red",
+      textAlign: "center",
+      marginBottom: "15px",
+      fontWeight: "500"
+    }}
+  >
+    {message}
+  </p>
+)}
+
 
         <form onSubmit={handleSubmit}>
           <input
@@ -41,6 +78,18 @@ function Signup() {
             name="password"
             type="password"
             placeholder="Password"
+            onChange={handleChange}
+          />
+
+          <input
+            name="phone"
+            placeholder="Phone Number"
+            onChange={handleChange}
+          />
+
+          <input
+            name="address"
+            placeholder="Address"
             onChange={handleChange}
           />
 
