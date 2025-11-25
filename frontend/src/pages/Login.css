@@ -1,0 +1,74 @@
+.login-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f2f4f7;
+  font-family: Arial, sans-serif;
+}
+
+/* Card */
+.login-box {
+  width: 380px;
+  padding: 30px;
+  border-radius: 12px;
+  background: white;
+  box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Heading */
+.login-box h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #333;
+}
+
+/* Inputs */
+.login-box input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: 0.2s;
+}
+
+.login-box input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Button */
+.login-box button {
+  width: 100%;
+  padding: 12px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: 0.2s;
+}
+
+.login-box button:hover {
+  background: #005fcc;
+}
+
+/* Signup link */
+.signup-link {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.signup-link a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.signup-link a:hover {
+  text-decoration: underline;
+}
