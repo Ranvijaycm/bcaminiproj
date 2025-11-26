@@ -9,7 +9,7 @@ import adminRoutes from "./routes/admin.js";
 import paymentRoutes from "./routes/payment.js";
 import reportRoutes from "./routes/report.js";
 
-import suggestionRoutes from "./routes/suggestion.js";
+import suggestionsRoute from "./routes/suggestions.js";
 import db from "./config/db.js";
 
 dotenv.config();
@@ -35,7 +35,7 @@ app.use("/api/payment", paymentRoutes);
 app.use("/api/report", reportRoutes);
 
 
-app.use("/api/suggestion", suggestionRoutes);
+app.use("/api/suggestions", suggestionsRoute);
 
 // Start server
 const PORT = process.env.PORT || 5000;

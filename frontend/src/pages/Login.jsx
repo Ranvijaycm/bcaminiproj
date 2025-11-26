@@ -29,6 +29,8 @@ function Login() {
       // Save token in localStorage
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("userName", response.data.user.name);
+      localStorage.setItem("userId", response.data.user.id);
+
 
       // Redirect after login
       window.location.href = "/";
@@ -43,7 +45,19 @@ function Login() {
       <div className="login-box">
         <h2>Welcome Back</h2>
 
-        {message && <p style={{ color: "red" }}>{message}</p>}
+        {message && (
+  <p
+    style={{
+      color: message.toLowerCase().includes("success") ? "green" : "red",
+      textAlign: "center",
+      marginBottom: "15px",
+      fontWeight: "500"
+    }}
+  >
+    {message}
+  </p>
+)}
+
 
         <form onSubmit={handleSubmit}>
           <input
