@@ -33,7 +33,8 @@ function Login() {
 
 
       // Redirect after login
-      window.location.href = "/";
+      window.location.href = "/home";
+
     } catch (error) {
       console.log(error);
       setMessage(error.response?.data?.message || "Login failed");
@@ -79,7 +80,15 @@ function Login() {
 
         <div className="signup-link">
           New here? <a href="/signup">Create Account</a>
+
+          <div style={{ marginTop: "10px" }}>
+          <a href="/admin-login" style={{ color: "#007bff", fontWeight: "500" }}>
+      Admin Login
+    </a>
         </div>
+      </div>
+
+
       </div>
     </div>
   );

@@ -35,7 +35,7 @@ function Suggestion() {
     try {
       const res = await axios.post("http://localhost:5000/api/suggestions", {
         user_id: userId,
-        message,
+        message, // still sending "message" from frontend
       });
 
       setStatus(res.data.message);
@@ -49,6 +49,7 @@ function Suggestion() {
 
   return (
     <Box sx={{ paddingTop: "80px", paddingX: "20px" }}>
+      
       {/* FORM CARD */}
       <Card sx={{ maxWidth: 700, margin: "auto", mb: 4, borderRadius: "12px", boxShadow: 3 }}>
         <CardContent>
@@ -113,10 +114,11 @@ function Suggestion() {
                     backgroundColor: "#f5f5f5",
                   }}
                 >
-                  <Typography sx={{ fontWeight: "bold" }}>
-                    {userName}
-                  </Typography>
-                  <Typography sx={{ mt: 0.5 }}>{s.message}</Typography>
+                  <Typography sx={{ fontWeight: "bold" }}>{userName}</Typography>
+
+                  {/* CHANGED HERE: s.suggestion instead of s.message */}
+                  <Typography sx={{ mt: 0.5 }}>{s.suggestion}</Typography>
+
                   <Typography sx={{ mt: 0.5, fontSize: "12px", opacity: 0.7 }}>
                     {new Date(s.created_at).toLocaleString()}
                   </Typography>

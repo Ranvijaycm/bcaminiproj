@@ -15,12 +15,25 @@ export const subscribeTiffin = (user_id, tiffin_id, callback) => {
     db.query(query, [user_id, tiffin_id], callback);
 };
 
-// Get user's latest tiffin subscription
+// ⭐ UPDATED: Get user's latest tiffin subscription WITH provider details
 export const getMyTiffinSubscription = (user_id, callback) => {
     const query = `
-        SELECT * FROM service_request 
-        WHERE user_id = ? AND service_type = 'tiffin'
-        ORDER BY request_id DESC LIMIT 1
+        SELECT 
+            sr.request_id, 
+            sr.status, 
+            sr.request_date,
+            sr.tiffin_id,
+            ts.provider_name,
+            ts.meal_type,
+            ts.price
+        FROM service_request sr
+        LEFT JOIN tiffin_service ts 
+            ON sr.tiffin_id = ts.tiffin_id
+        WHERE sr.user_id = ? 
+          AND sr.service_type = 'tiffin'
+        ORDER BY sr.request_id DESC 
+        LIMIT 1
     `;
+
     db.query(query, [user_id], callback);
 };

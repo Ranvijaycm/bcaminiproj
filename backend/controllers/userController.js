@@ -1,12 +1,13 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import db from "../config/db.js";
 import { createUser, findUserByEmail, getAllUsers } from "../models/userModel.js";
 
 const JWT_SECRET = process.env.JWT_SECRET || "MYNEST_SECRET_KEY";
 
-// ==============================
-// REGISTER USER
-// ==============================
+/* ===========================================================
+   REGISTER USER
+=========================================================== */
 export const registerUser = (req, res) => {
     const { name, email, password, phone, address, role } = req.body;
 
@@ -45,9 +46,9 @@ export const registerUser = (req, res) => {
     });
 };
 
-// ==============================
-// LOGIN USER
-// ==============================
+/* ===========================================================
+   LOGIN USER
+=========================================================== */
 export const loginUser = (req, res) => {
     const { email, password } = req.body;
 
@@ -66,7 +67,6 @@ export const loginUser = (req, res) => {
             if (!match)
                 return res.status(400).json({ message: "Incorrect password" });
 
-            // FIXED — CORRECT USER ID
             const token = jwt.sign(
                 { id: user.user_id, role: user.role },
                 JWT_SECRET,
@@ -87,13 +87,38 @@ export const loginUser = (req, res) => {
     });
 };
 
-// ==============================
-// GET ALL USERS
-// ==============================
+/* ===========================================================
+   GET ALL USERS (ADMIN)
+=========================================================== */
 export const fetchAllUsers = (req, res) => {
     getAllUsers((err, users) => {
         if (err) return res.status(500).json({ message: "Database error" });
-
-        return res.json(users);
+        res.json(users);
     });
+};
+
+/* ===========================================================
+   GET MY PROFILE (NEW)
+=========================================================== */
+export const getMyProfile = (req, res) => {
+    const token = req.headers.authorization?.split(" ")[1];
+
+    if (!token) return res.status(401).json({ message: "Unauthorized" });
+
+    try {
+        const decoded = jwt.verify(token, JWT_SECRET);
+
+        const sql = "SELECT * FROM users WHERE user_id = ?";
+        db.query(sql, [decoded.id], (err, result) => {
+            if (err) return res.status(500).json({ message: "Database error" });
+
+            if (result.length === 0)
+                return res.status(404).json({ message: "User not found" });
+
+            res.json(result[0]);
+        });
+
+    } catch (err) {
+        return res.status(401).json({ message: "Invalid token" });
+    }
 };

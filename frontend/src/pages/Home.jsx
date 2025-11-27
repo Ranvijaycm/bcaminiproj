@@ -1,138 +1,111 @@
-import { Box, Typography, Button, Stack, Card, CardContent } from "@mui/material";
-import RestaurantIcon from "@mui/icons-material/Restaurant";
-import ReportProblemIcon from "@mui/icons-material/ReportProblem";
-import MiscellaneousServicesIcon from "@mui/icons-material/MiscellaneousServices";
+// src/pages/Home.jsx
+
+import { Box, Grid, Card, CardActionArea, CardContent, Typography, Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+
+// Icons
+import DinnerDiningIcon from "@mui/icons-material/DinnerDining";
+import LocalLaundryServiceIcon from "@mui/icons-material/LocalLaundryService";
+import CleaningServicesIcon from "@mui/icons-material/CleaningServices";
+import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 
 function Home() {
-  return (
-    <Box
+  const navigate = useNavigate();
+
+  // Card Component Function
+  const ServiceCard = ({ title, icon, route }) => (
+    <Card
       sx={{
-        paddingTop: "80px", // so text doesn't hide behind navbar
-        width: "100%",
-        paddingLeft: "200px",
-        textAlign: "center",
+        borderRadius: "14px",
+        boxShadow: 3,
+        transition: "0.25s",
+        "&:hover": {
+          transform: "scale(1.03)",
+          boxShadow: 6,
+          cursor: "pointer",
+        },
       }}
+      onClick={() => navigate(route)}
     >
-      {/* HEADER */}
-      <Typography variant="h4" fontWeight="bold" sx={{ mb: 1 }}>
-        Welcome to MyNest
+      <CardActionArea>
+        <CardContent sx={{ textAlign: "center", padding: "28px" }}>
+          {icon}
+          <Typography variant="h6" sx={{ mt: 1, fontWeight: 600 }}>
+            {title}
+          </Typography>
+        </CardContent>
+      </CardActionArea>
+    </Card>
+  );
+
+  return (
+    <Box sx={{ paddingTop: "80px", paddingX: "25px" }}>
+      <Typography variant="h5" fontWeight="bold" sx={{ mb: 3 }}>
+        Welcome to MyNest Dashboard
       </Typography>
 
-      <Typography variant="subtitle1" sx={{ mb: 5, opacity: 0.8 }}>
-        Your daily essentials – all in one place.
-      </Typography>
+      {/* Dashboard Grid */}
+      <Grid container spacing={3}>
 
-      {/* MAIN GRID */}
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-around",
-          alignItems: "flex-start",
-          width: "100%",
-          paddingX: "40px",
-          marginTop: "40px",
-        }}
-      >
-        {/* SERVICES */}
-        <Box sx={{ width: "30%" }}>
-          <Typography variant="h5" sx={{ mb: 3, fontWeight: "bold" }}>
-            SERVICES
-          </Typography>
+        <Grid item xs={12} sm={6} md={3}>
+          <ServiceCard
+            title="Tiffin Service"
+            route="/tiffin"
+            icon={<DinnerDiningIcon sx={{ fontSize: 50 }} />}
+          />
+        </Grid>
 
-          <Stack spacing={2} alignItems="center">
-            <Button
-              variant="contained"
-              startIcon={<RestaurantIcon />}
-              sx={{
-                width: "200px",
-                background: "#4D8EFF",
-                ":hover": { background: "#2C6BE0" },
-              }}
-            >
-              Tiffin Service
-            </Button>
+        <Grid item xs={12} sm={6} md={3}>
+          <ServiceCard
+            title="Laundry"
+            route="/laundry"
+            icon={<LocalLaundryServiceIcon sx={{ fontSize: 50 }} />}
+          />
+        </Grid>
 
-            <Button
-              variant="contained"
-              startIcon={<ReportProblemIcon />}
-              sx={{
-                width: "200px",
-                background: "#FFA93A",
-                ":hover": { background: "#FF8F00" },
-              }}
-            >
-              Complaints
-            </Button>
+        <Grid item xs={12} sm={6} md={3}>
+          <ServiceCard
+            title="Room Cleaning"
+            route="/room"
+            icon={<CleaningServicesIcon sx={{ fontSize: 50 }} />}
+          />
+        </Grid>
 
-            <Button
-              variant="contained"
-              startIcon={<MiscellaneousServicesIcon />}
-              sx={{
-                width: "200px",
-                background: "#9C6BFF",
-                ":hover": { background: "#7A47E6" },
-              }}
-            >
-              Request Services
-            </Button>
-          </Stack>
-        </Box>
+        <Grid item xs={12} sm={6} md={3}>
+          <ServiceCard
+            title="Payments"
+            route="/payments"
+            icon={<MonetizationOnIcon sx={{ fontSize: 50 }} />}
+          />
+        </Grid>
 
-        {/* PAYMENTS */}
-        <Box sx={{ width: "30%" }}>
-          <Typography variant="h5" sx={{ mb: 3, fontWeight: "bold" }}>
-            PAYMENTS
-          </Typography>
+      </Grid>
 
-          <Card
-            sx={{
-              padding: "20px",
-              borderRadius: "12px",
-              boxShadow: 3,
-              textAlign: "center",
-            }}
-          >
-            <Typography variant="subtitle1">Status of latest payment</Typography>
-
-            <Typography
-              sx={{ mt: 1, fontWeight: "bold", color: "red", fontSize: "20px" }}
-            >
-              PENDING ⏳
-            </Typography>
-          </Card>
-        </Box>
-
-        {/* MY COMPLAINTS */}
-        <Box sx={{ width: "30%" }}>
-          <Typography variant="h5" sx={{ mb: 3, fontWeight: "bold" }}>
-            MY COMPLAINTS
-          </Typography>
-
-          <Card
-            sx={{
-              padding: "20px",
-              borderRadius: "12px",
-              boxShadow: 3,
-              textAlign: "center",
-            }}
-          >
-            <Typography>No complaints submitted yet</Typography>
-          </Card>
-        </Box>
+      {/* Admin Panel Button */}
+      <Box sx={{ textAlign: "center", mt: 5 }}>
+        <Button
+          variant="outlined"
+          startIcon={<AdminPanelSettingsIcon />}
+          sx={{
+            borderRadius: "10px",
+            paddingX: "20px",
+            paddingY: "8px",
+            fontSize: "15px",
+            textTransform: "none",
+            borderColor: "#000",
+            color: "#000",
+            "&:hover": {
+              borderColor: "#1565c0",
+              color: "#1565c0",
+            },
+          }}
+          onClick={() => navigate("/admin-login")}
+        >
+          Admin Panel
+        </Button>
       </Box>
 
-      {/* BIG LOGO BACKGROUND */}
-      <Box
-        component="img"
-        src="/mynest_bg.png"
-        alt="MyNest Logo"
-        sx={{
-          width: "500px",
-          opacity: 0.15,
-          margin: "50px auto 0",
-          display: "block",
-        }}
-      />
     </Box>
   );
 }
